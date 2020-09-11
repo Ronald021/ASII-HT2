@@ -1,42 +1,33 @@
 package gt.com.antiguaburger.antiguaburgerweb.controller;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
+public class ConectionService {
+    private static DataSource dataSource;
+    private static ConectionService instance;
 
-    private static DatabaseConnection instance;
-    private Connection connection = null;
-    private String url = " jdbc:mysql://localhost:3306/dbAntiguaBurger";
-    private String username = "root";
-    private String password = "localhost";
-
-    private DatabaseConnection() throws SQLException {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            this.connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Database Connection Creation Failed : " + ex.getMessage());
-        }
-        finally{
-            if(connection != null){
-                connection.close();
-            }
-
-        }
+    private ConectionService(){
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public static DatabaseConnection getInstance() throws SQLException {
-        if (instance == null) {
-            instance = new DatabaseConnection();
-        } else if (instance.getConnection().isClosed()) {
-            instance = new DatabaseConnection();
+    public static ConectionService getInstance(){
+        if(instance==null){
+            instance=new ConectionService();
         }
         return instance;
+     }
+
+    public Connection getConnection() throws SQLException {
+        try {
+            dataSource = (DataSource) new InitialContext().lookup("jdbc/as2ht2");
+        }
+        catch (NamingException e) {
+            //throw new ExceptionInInitializerError("'jdbc/as2ht2' not found in JNDI", e);
+        }
+        return dataSource.getConnection();
     }
 }
