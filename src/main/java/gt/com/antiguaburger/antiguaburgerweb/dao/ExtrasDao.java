@@ -1,36 +1,30 @@
 package gt.com.antiguaburger.antiguaburgerweb.dao;
 
-import gt.com.antiguaburger.antiguaburgerweb.controller.ConectionService;
 import gt.com.antiguaburger.antiguaburgerweb.controller.IGetItems;
 import gt.com.antiguaburger.antiguaburgerweb.modelo.OrderEntity;
+import gt.com.antiguaburger.antiguaburgerweb.controller.ConectionService;
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-public class Extras implements IGetItems {
+public class ExtrasDao implements IGetItems {
 	@Override
     public OrderEntity llenar(String id) {
-        OrderEntity order = new OrderEntity();
-        String lleno = null;
-        int price=0;
+        OrderEntity order=new OrderEntity();
+        int price;
+        String lleno=null;
         try{
-            Connection conn = ConectionService.getConnection();
-            String query = "SELECT name,price FROM Extras where id = "+id;
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            lleno = rs.getString("name");
-            price = rs.getInt("price");
-            order.setExtras(lleno);
-            order.setTotal(price);
-
-
-            st.close();
+            ConectionService con= ConectionService.getInstance();
+            Connection conexion = con.getConnection();
+            PreparedStatement statement = conexion.prepareStatement("SELECT name,price FROM Extras where id="+id);
+            ResultSet rs=statement.executeQuery();
+            while (rs.next()) {
+                lleno = rs.getString("name");
+                price = rs.getInt("price");
+                order.setExtras(lleno);
+                order.setPriceE(price);
+            }
+            conexion.close();
         }catch (SQLException e){
-            System.err.println("Ups! ");
+            System.err.println("ERROR FATAL! ");
             System.err.println(e.getMessage());
         }finally {
             // st.close();
