@@ -1,16 +1,22 @@
 package gt.com.antiguaburger.antiguaburgerweb.controller;
 
 
+import gt.com.antiguaburger.antiguaburgerweb.dao.ExtrasDao;
+import gt.com.antiguaburger.antiguaburgerweb.dao.ExtrasDao;
+import gt.com.antiguaburger.antiguaburgerweb.dao.MenuDao;
+import gt.com.antiguaburger.antiguaburgerweb.dao.MenuDao;
+import gt.com.antiguaburger.antiguaburgerweb.dao.OptionsDao;
 import gt.com.antiguaburger.antiguaburgerweb.modelo.OrderEntity;
 import gt.com.antiguaburger.antiguaburgerweb.modelo.OrderWebEntity;
 import gt.com.antiguaburger.antiguaburgerweb.print.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ComboBuilder {
-    public OrderEntity buildc (OrderWebEntity orderw){
+    public OrderEntity  buildc (OrderWebEntity orderw) throws SQLException {
         IPrinter txt = new PrintTXT();
         IPrinter json = new PrintJSON();
         IPrinter html = new PrintHTML();
@@ -26,23 +32,31 @@ public class ComboBuilder {
         List<String> aa = new ArrayList<>();
 
 
-        Options opt = new Options();
-        Menu menu = new Menu();
-        Extras ext = new Extras();
-
+        OptionsDao opt = new OptionsDao();
+        MenuDao menu = new MenuDao();
+        ExtrasDao ext = new ExtrasDao();
+        System.out.println("options");
         for(int a =0; a<orderw.getIdoption().size();a++) {
             options.add(opt.llenar(orderw.getIdoption().get(a)));
+            System.out.println(orderw.getIdoption().get(a));
         }
+        System.out.println("extras");
+
         for(int a =0; a<orderw.getIdExtra().size();a++) {
             extras = ext.llenar(orderw.getIdExtra().get(a));
+            System.out.println(orderw.getIdExtra().get(a));
             listextra.add(extras.getExtras());
            //cantidad= Integer.parseInt(orderw.getCantextra().get(a));
             totalextras = totalextras + (extras.getTotal()*cantidad);
         }
-        items = menu.llenar(orderw.getIdmenu());
+        System.out.println("idmenu");
 
+        items = menu.llenar(orderw.getIdmenu());
+        System.out.println(orderw.getIdmenu());
         listmenu = items.getItems();
         Date objDate = new Date();
+
+        buildCombo.setCashier(orderw.getCashier());
         buildCombo.setTime(objDate.toString());
         buildCombo.setCustomer(orderw.getUser());
         buildCombo.setTaxid(orderw.getNit());

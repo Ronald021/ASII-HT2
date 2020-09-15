@@ -1,9 +1,9 @@
 package gt.com.antiguaburger.antiguaburgerweb.modelo;
 
-import java.util.*;
+import java.util.List;
 
 /**
- *
+ * 
  */
 public class OrderEntity {
 
@@ -14,10 +14,10 @@ public class OrderEntity {
     }
     private String menuid;
     private String type;
-    public String getType() {
+        public String getType() {
         return type;
     }
-    public void setType(String type) {
+        public void setType(String type) {
         this.type = type;
     }
 
@@ -26,28 +26,28 @@ public class OrderEntity {
     private int order;
 
     /**
-     *
+     * 
      */
     private String cashier;
 
     /**
-     *
+     * 
      */
     private String username;
 
     /**
-     *
+     * 
      */
     private String customer;
 
     /**
-     *
+     * 
      */
     private String taxid;
 
 
     /**
-     *
+     * 
      */
     private List<String>  items;
     private List<String> options;
@@ -63,7 +63,7 @@ public class OrderEntity {
     }
 
     /**
-     *
+     * 
      */
 
     private int total;

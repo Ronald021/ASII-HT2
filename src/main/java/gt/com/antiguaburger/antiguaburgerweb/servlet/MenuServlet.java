@@ -21,15 +21,17 @@ public class MenuServlet extends HttpServlet {
     OrderWebEntity web = new OrderWebEntity();
     OrderEntity order = new OrderEntity();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user = ".";
+
         List<String> option = new ArrayList<>();
         List<String> copt = new ArrayList<>();
         List<String> ext = new ArrayList<>();
         List<String> cext = new ArrayList<>();
 
 
-
-        String idmenu = request.getParameter("idmenu");
+        String cashier = request.getParameter("cashier");
+        String id = request.getParameter("idmenu");
+        String customer = request.getParameter("customer");
+        String taxid = request.getParameter("taxid");
         option.add(request.getParameter("opt1"));
         option.add(request.getParameter("opt2"));
         option.add( request.getParameter("opt3"));
@@ -43,12 +45,15 @@ public class MenuServlet extends HttpServlet {
         cext.add( request.getParameter("cextra2"));
         cext.add( request.getParameter("cextra3"));
 
-        web.setIdmenu(idmenu);
+
+        web.setIdmenu(id);
         web.setIdoption(option);
         web.setCantoption(copt);
         web.setIdExtra(ext);
         web.setCantextra(cext);
-        web.setUser(user);
+        web.setCashier(cashier);
+        web.setNit(taxid);
+        web.setUser(customer);
 
         ComboBuilder cm = new ComboBuilder();
     try {

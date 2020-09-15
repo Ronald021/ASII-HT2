@@ -8,6 +8,9 @@ public class OrderWebEntity {
     private List<String> cantoption;
     private List<String> idExtra;
     private List<String> cantextra;
+    private String cashier;
+    private String user;
+    private String nit;
 
     public String getIdmenu() {
         return idmenu;
@@ -47,5 +50,29 @@ public class OrderWebEntity {
 
     public void setCantextra(List<String> cantextra) {
         this.cantextra = cantextra;
+    }
+
+    public String getCashier() {
+        return cashier;
+    }
+
+    public void setCashier(String cashier) {
+        this.cashier = cashier;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getNit() {
+        return nit;
+    }
+
+    public void setNit(String nit) {
+        this.nit = nit;
     }
 }

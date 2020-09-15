@@ -1,12 +1,15 @@
 package gt.com.antiguaburger.antiguaburgerweb.dao;
 
+import gt.com.antiguaburger.antiguaburgerweb.controller.ConectionService;
 import gt.com.antiguaburger.antiguaburgerweb.controller.IGetItems;
 import gt.com.antiguaburger.antiguaburgerweb.modelo.OrderEntity;
-import gt.com.antiguaburger.antiguaburgerweb.controller.ConectionService;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExtrasDao implements IGetItems {
-	@Override
+    @Override
     public OrderEntity llenar(String id) {
         OrderEntity order=new OrderEntity();
         int price;
@@ -20,7 +23,7 @@ public class ExtrasDao implements IGetItems {
                 lleno = rs.getString("name");
                 price = rs.getInt("price");
                 order.setExtras(lleno);
-                order.setPriceE(price);
+                order.setTotal(price);
             }
             conexion.close();
         }catch (SQLException e){
