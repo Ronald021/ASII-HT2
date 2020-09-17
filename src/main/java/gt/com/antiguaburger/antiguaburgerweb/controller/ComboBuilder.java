@@ -2,13 +2,11 @@ package gt.com.antiguaburger.antiguaburgerweb.controller;
 
 
 import gt.com.antiguaburger.antiguaburgerweb.dao.ExtrasDao;
-import gt.com.antiguaburger.antiguaburgerweb.dao.ExtrasDao;
-import gt.com.antiguaburger.antiguaburgerweb.dao.MenuDao;
 import gt.com.antiguaburger.antiguaburgerweb.dao.MenuDao;
 import gt.com.antiguaburger.antiguaburgerweb.dao.OptionsDao;
 import gt.com.antiguaburger.antiguaburgerweb.modelo.OrderEntity;
 import gt.com.antiguaburger.antiguaburgerweb.modelo.OrderWebEntity;
-import gt.com.antiguaburger.antiguaburgerweb.print.*;
+import gt.com.antiguaburger.antiguaburgerweb.prints.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,6 +23,8 @@ public class ComboBuilder {
         OrderEntity buildCombo = new OrderEntity();
         OrderDecorator deco = new OrderDecorator();
         OrderEntity items,extras = new OrderEntity();
+        GetTotalOptions optt = new GetTotalOptions();
+        int totaloptions = optt.totaloptions(orderw.getIdmenu());
         int total=0, totalextras=0,cantidad=1;
         List<String> options = new ArrayList<>();
         List<String> listmenu = new ArrayList<>();
@@ -36,7 +36,7 @@ public class ComboBuilder {
         MenuDao menu = new MenuDao();
         ExtrasDao ext = new ExtrasDao();
         System.out.println("options");
-        for(int a =0; a<orderw.getIdoption().size();a++) {
+        for(int a =0; a<totaloptions;a++) {
             options.add(opt.llenar(orderw.getIdoption().get(a)));
             System.out.println(orderw.getIdoption().get(a));
         }
@@ -46,7 +46,6 @@ public class ComboBuilder {
             extras = ext.llenar(orderw.getIdExtra().get(a));
             System.out.println(orderw.getIdExtra().get(a));
             listextra.add(extras.getExtras());
-           //cantidad= Integer.parseInt(orderw.getCantextra().get(a));
             totalextras = totalextras + (extras.getTotal()*cantidad);
         }
         System.out.println("idmenu");
@@ -62,7 +61,7 @@ public class ComboBuilder {
         buildCombo.setTaxid(orderw.getNit());
         buildCombo.setData(listextra);
         buildCombo.setTotal(items.getTotal()+totalextras);
-        buildCombo.setItems(deco.getDecoratoralgo(listmenu,options));
+        buildCombo.setItems(deco.getDecoratorMenu(listmenu,options));
         txt.print(buildCombo);
         json.print(buildCombo);
         html.print(buildCombo);
