@@ -4,5 +4,5 @@ import java.util.List;
 
 public abstract class OrderBuilderDecorator {
 
-    public abstract List<String> getDecoratoralgo(List<String> comida,List<String> option);
+    public abstract List<String> getDecoratorMenu(List<String> comida, List<String> option);
 }
