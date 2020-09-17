@@ -1,20 +1,19 @@
 package gt.com.antiguaburger.antiguaburgerweb.dao;
 
 import gt.com.antiguaburger.antiguaburgerweb.controller.ConectionService;
-import gt.com.antiguaburger.antiguaburgerweb.controller.ConectionService;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OptionsDao {
 
     public String llenar(String id) {
         String lleno= null;
+        Connection conexion = null;
+        PreparedStatement statement = null;
         try{
             ConectionService con= ConectionService.getInstance();
-            Connection conexion = con.getConnection();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM options WHERE id="+id);
+            conexion = con.getConnection();
+             statement = conexion.prepareStatement("SELECT * FROM options WHERE id="+id);
             ResultSet rs=statement.executeQuery();
             while (rs.next()) {
                 lleno=rs.getString("name");
@@ -23,7 +22,13 @@ public class OptionsDao {
             System.err.println("ERROR");
             System.err.println(e.getMessage());
         }finally {
-            // st.close();
+            try {
+                statement.close();
+                conexion.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
         }
         return lleno;
     }

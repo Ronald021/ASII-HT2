@@ -14,11 +14,13 @@ public class ExtrasDao implements IGetItems {
         OrderEntity order=new OrderEntity();
         int price;
         String lleno=null;
+        Connection conexion = null;
+        ResultSet rs =null;
         try{
             ConectionService con= ConectionService.getInstance();
-            Connection conexion = con.getConnection();
+            conexion = con.getConnection();
             PreparedStatement statement = conexion.prepareStatement("SELECT name,price FROM Extras where id="+id);
-            ResultSet rs=statement.executeQuery();
+            rs=statement.executeQuery();
             while (rs.next()) {
                 lleno = rs.getString("name");
                 price = rs.getInt("price");
@@ -26,11 +28,18 @@ public class ExtrasDao implements IGetItems {
                 order.setTotal(price);
             }
             conexion.close();
+            rs.close();
         }catch (SQLException e){
             System.err.println("ERROR FATAL! ");
             System.err.println(e.getMessage());
         }finally {
-            // st.close();
+            try
+            {
+                conexion.close();
+                rs.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return order;
     }
