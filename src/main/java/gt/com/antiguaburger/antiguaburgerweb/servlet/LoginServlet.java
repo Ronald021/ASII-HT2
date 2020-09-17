@@ -13,16 +13,18 @@ import java.io.PrintWriter;
 
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
-    String cashier;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cashier;
         cashier = request.getParameter("user");
+        request.getSession(true).setAttribute("user",cashier);
         response.sendRedirect("/antiguaBweb-1.0-SNAPSHOT/menu.html");
 
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()){
-            out.println(cashier);
-            System.out.println(cashier);
+            out.println(request.getSession(false).getAttribute("user"));
+            System.out.println(request.getSession(false).getAttribute("user"));
         }
 
     }
