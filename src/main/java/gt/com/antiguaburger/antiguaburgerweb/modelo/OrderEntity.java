@@ -124,7 +124,6 @@ public class OrderEntity {
         this.taxid = taxid;
     }
 
-
     public String getExtras() {
         return extras;
     }
