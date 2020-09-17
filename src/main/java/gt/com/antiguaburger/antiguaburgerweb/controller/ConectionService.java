@@ -26,7 +26,6 @@ public class ConectionService {
             dataSource = (DataSource) new InitialContext().lookup("jdbc/ht2");
         }
         catch (NamingException e) {
-            //throw new ExceptionInInitializerError("'jdbc/as2ht2' not found in JNDI", e);
         }
         return dataSource.getConnection();
     }
