@@ -1,9 +1,6 @@
 # ASII-HT2
 Hoja de trabajo 2
 
-# ASII-HT2
-Hoja de trabajo 2
-
 ## Descripción del Programa
 Sistema de información encargado efectuar transacciones básicas que incluyen las comidas de los tres tiempos, es decir desayuno, almuerzo y cena. Ofreciendo cinco menús, permitiendo la personalización a los menús, la cual es agregada de manera automática a los detalles del platillo. El sistema de infromación permite agragar a los menús pedidos extras.
 
